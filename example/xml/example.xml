@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <version>1.0</version>
+  <context>  
+    <users>
+      <user>
+        <name>Thomas</name>
+        <age>22</age>
+        <admin>false</admin>
+      </user>
+      <user>
+        <name>Steven</name>
+        <age>30</age>
+        <admin>true</admin>
+      </user>
+    </users>
+    <empty/>
+    <texts empty="">
+      <text key="general#company" language="en">My Company</text>
+      <text key="general#cancel" language="en">Cancel this action</text>
+      <text key="general#change_to_german" language="de">Deutsche Sprache</text>
+      <text key="admin#logout" language="en">Logout</text>
+    </texts>
+    <misc>
+      <something id="1">
+        <some>
+          <other>
+            <url>www.google.com</url>
+            <url>www.nbc.com</url>
+          </other>
+          <other>Nothing</other>
+        </some>        
+        <some>A</some>        
+      </something>
+      <something id="2">
+        <some>B</some>
+        <some>
+          <other>
+            <url>www.cnn.com</url>
+          </other>
+        </some>
+      </something>
+      <software>
+        <name>Adobe Photoshop</name>
+        <name>Open Office</name>
+        <name>Notepad++</name>
+      </software>
+    </misc>
+  </context>
+</response>

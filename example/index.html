@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    
+    <title>XMLtoJSON EXAMPLES</title>    
+    <meta http-equiv="Content-Type" content="text/html; charset=charset=UTF-8"/>
+    <script language="javascript" type="text/javascript" src="dependencies/jquery.js"></script>
+    <!-- Render and style JSON/XML -->
+    <script language="javascript" type="text/javascript" src="dependencies/json2.js"></script>
+    <script language="javascript" type="text/javascript" src="dependencies/beautify.js"></script>
+    <!-- /Render and style JSON/XML -->
+    <script language="javascript" type="text/javascript" src="dependencies/simple-inheritance.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.xmltojson.min.js"></script>
+    <script language="javascript" type="text/javascript" src="dependencies/application.js"></script>
+  
+  <style type="text/css">
+    body {
+      background-color: #559;
+      font-size: 12px;
+      color: #333;
+      line-height: 19px;
+      font-family: Arial, Verdana;
+    }
+    div, h1 {
+      padding: 10px;
+      background-color: #eee;
+      margin: 20px;
+      border: 1px solid #666;
+    }
+    div div {
+      border-color: #bbb;
+      position: relative;
+      background-color: #f4f4f4;
+      padding: 10px 10px 0 10px;
+    }
+    pre, code {
+      color: #922;
+    }
+    textarea {
+      width: 100%;
+      border: 1px solid #ccc;
+      padding: 2px;
+      margin-bottom: 5px;
+    }
+    .button {
+      display: inline-block;
+      padding: 3px 5px;
+      background-color: #0a0;
+      color: #fff;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
+    * html .button {
+      position: static;
+    }
+  </style>
+  
+  </head>
+
+  <body>
+  <h1>List of examples for using XMLtoJSON</h1>
+  <div id="source">
+    <h2>XML source</h2>
+    <p>The xml example (<a href="xml/example.xml">xml/example.xml</a>) file contains:</p>
+    <textarea style="height: 300px;"></textarea>
+  </div>
+  
+  <div id="default">
+    <h2>Default transformation</h2>
+    <pre>
+      var data = new XMLtoJSON({
+        url: 'xml/example.xml'
+      });
+    </pre>
+    <h2>Generated JSON</h2>
+    <textarea style="height: 300px;"></textarea>
+  </div>
+  
+  <div id="examples">
+    <h2>Custom parameters</h2>
+    <div>
+      <p>Include namespace information</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          namespaces: true
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Change value identifier</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          valueIdentifier: 'text'
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Change attribute identifier</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          attributeIdentifier: '@'
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Detect types (JSON is backparsed as String for output preview)</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          detectTypes: true
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Add a custom filter</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          filter: function(value){
+            if(value === 'Thomas'){
+              return 'Michael';
+            }
+            else{
+              return value;
+            }
+          }
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Add a custom fallback method if XML is invalid or could not requested</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/non-existing.xml',
+          fallback: function(e){
+            alert(e.code + ' - ' + e.message);
+          }
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Set empty attribute (attribute="") and empty node value (&lt;node/&gt;) to null</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          emptyValuesAsNull : true
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Remove 'response' node and move all children one level up</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          modify: {
+            'response.*' : '.'
+          }
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Remove 'response.context' node and move all children into root</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          modify: {
+            'response.context.*' : '.'
+          }
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Remove 'response.context' node and move all children into root. Move 'response.version' as 'version' into root.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          modify: {
+            'response.context.*' : '.',
+            'response.version' : 'version'
+          }
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Remove 'response.context' node and move all children into root. Move 'response.version' as 'version' into root. Node 'response.context' and 'response' is now empty – clear node with param clearEmptyNodes.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          modify: {
+            'response.context.*' : '.',
+            'response.version' : 'version'
+          },
+          clearEmptyNodes : true
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Rename 'response' node into 'info'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          modify: {
+            'response' : 'info'
+          }
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Move 'response.context.misc.software' into new non-existing path 'response.info.misc.tools' (rename 'software' to 'tools').</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          modify: {
+            'response.context.misc.software' : 'response.info.misc.tools'
+          },
+          clearEmptyNodes : true
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Save all attributes with name 'key' of 'response.context.texts.text' into 'keys'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          modify: {
+            'response.context.texts.text._key' : 'keys'
+          }
+        });
+      </pre>
+    </div>
+    <div>
+      <p>Save the first user as 'response.first_user'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          modify: {
+            'response.context.users.user[0]' : 'response.first_user'
+          }
+        });
+      </pre>
+    </div>
+    <h2>Methods</h2>
+    <div>
+      <p>Add custom nodes.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data.createNodes('response.context.info.countries.asia.india');
+      </pre>
+    </div>
+    <div>
+      <p>Remove node.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data.remove('response.context');
+      </pre>
+    </div>
+    <div>
+      <p>Remove specified entry of node.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data.remove('response.context.users.user[0]');
+      </pre>
+    </div>
+    <h2 id="time">Result</h2>
+    <textarea id="result" style="height: 300px;"></textarea>
+   </div>
+   <div id="find">
+    <h2>Search and find in JSON</h2>
+    <p>
+      The data.find() method is a powerful way to access nodes (optionally with conditions). There is a logic implemented which allows a string notation without knowledge of the different node types – 
+      this means that you can access all Arrays inside of some other Arrays. It is not necessary to use a Array index. The following return statements are not parsed.
+     </p>
+    <div>
+      <p>Get all 'some' nodes in each 'response.context.misc.something.some'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.misc.something.some');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'something' nodes.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.misc.something');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'user' in 'response.context.users'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.users.user');
+      </pre>
+    </div>
+    <div>
+      <p>Get names of all 'user'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.users.user.name.$');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'user' which are admins.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.users.user', 'admin.$==true');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'texts' with a key attribute starting with 'general'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.texts.text', '_key=~/^general/');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'texts' with a value of 'My company'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.texts.text', '$==My Company');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'user' with a age of >25 years.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.users.user', 'age.$>=25');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'user' with are 30 years old.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          detectTypes: true
+        });
+        data = data.find('response.context.users.user', 'age.$==30');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'something' with a 'some.other.url' with value www.google.com.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          detectTypes: true
+        });
+        data = data.find('response.context.misc.something', 'some.other.url.$==www.google.com');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'software' which are not named 'Adobe Photoshop'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          detectTypes: true
+        });
+        data = data.find('response.context.misc.software.name', '$!=Adobe Photoshop');
+      </pre>
+    </div>
+    <div>
+      <p>Get all 'users' if first 'user' has name 'Thomas'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml',
+          detectTypes: true
+        });
+        data = data.find('response.context.users', 'user[0].name.$==Thomas');
+      </pre>
+    </div>
+  </div>
+  </body>
+
+</html>
