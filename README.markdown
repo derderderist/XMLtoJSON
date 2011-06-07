@@ -34,6 +34,7 @@ XMLtoJSON requires:
 	detectTypes // Automatically parse true, false, integer and null values
 	filter // Define a function to customize each XML attribute or text value
 	fallback // Define a function if XML is invalid or could not requested
+	log // Enable or disable output on console for errors and converting problems
 
 See examples/index.html to get a full overview of all parameters in usage
 
@@ -51,7 +52,7 @@ See examples/index.html to get a full overview of all parameters in usage
 
 The XML is fully converted in a JSON object and accessed by default object connection.
 
-	data.json.rootnode.subnode // Return object <rootnode>
+	data.json.rootnode // Return object <rootnode>
 	data.json.rootnode.subnode // Return object <subnode> in <rootnode>
 	data.json.rootnode.subnode[0] // Return first <subnode> in <rootnode>
 	data.json.rootnode._version // Return attribute 'version' for <rootnode>
@@ -65,7 +66,7 @@ You can use a string notation (like 'rootnode.subnode') to do something with the
 
 	data.createNodes(<String> path) // create a full JSON tree by the given path
 	data.remove(<String> path) // remove the given path from the JSON object
-	data.find(<String> path, [<String> conditions]) // Powerful method to get a specific part of the JSON object. See examples/index.html to get further information.
+	data.find(<String> path, [<String> conditions]) // Method to get a specific part of the JSON object. See examples/index.html to get further information.
 
 
 ## Browser compatibility
@@ -74,10 +75,11 @@ XMLtoJSON was successfully tested in:
 
 * Internet Explorer 6/7/8/9 (Windows)
 * Firefox 4.0.1 (Windows)
-* Google Chrome 10.0.648.204 (Windows)[Start with --allow-file-access-from-files or run demo from a webserver]
+* Google Chrome 10.0.648.204 (Windows)
 * Safari 5.0.5 (Windows)
-* Opera 11.10 (Windows)[Run demo from a webserver]
+* Opera 11.10 (Windows)
 
+Note: Chrome and Opera do not allow access via a Ajax-Request to a file from locale storage. Run the demo from a webserver or configure your browser (e.g. --allow-file-access-from-files for Chrome)
 
 ## ToDo
 
