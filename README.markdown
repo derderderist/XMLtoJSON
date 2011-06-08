@@ -10,7 +10,6 @@ This library converts XML into a customizable data object. The data object conta
 XMLtoJSON requires:
 
 * jQuery (> 1.5)
-* John's Resig Simple-Inheritance
 
 
 ## Usage

@@ -18,7 +18,7 @@ $(document).ready(function(){
     }
     else{
       $('#result').attr('value', js_beautify(JSON.stringify(data.json))).show();
-      $('#time').html('Result (' + data.duration + ')').show();
+      $('#time').html('Result for data.json (' + data.duration + ')').show();
       $('#time, #result').appendTo($(this).parent());
       return false;
     }
