@@ -59,6 +59,7 @@
   </head>
 
   <body>
+    
   <h1>List of examples for using XMLtoJSON</h1>
   <div id="source">
     <h2>XML source</h2>
@@ -152,7 +153,7 @@
       </pre>
     </div>
     <div>
-      <p>Remove 'response' node and move all children one level up</p>
+      <p>Clear 'response' node and move all children one level up</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml',
@@ -163,7 +164,7 @@
       </pre>
     </div>
     <div>
-      <p>Remove 'response.context' node and move all children into root</p>
+      <p>Clear 'response.context' node and move all children into root</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml',
@@ -174,7 +175,7 @@
       </pre>
     </div>
     <div>
-      <p>Remove 'response.context' node and move all children into root. Move 'response.version' as 'version' into root.</p>
+      <p>Clear 'response.context' node and move all children into root. Move 'response.version' as 'version' into root.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml',
@@ -186,13 +187,13 @@
       </pre>
     </div>
     <div>
-      <p>Remove 'response.context' node and move all children into root. Move 'response.version' as 'version' into root. Node 'response.context' and 'response' is now empty – clear node with param clearEmptyNodes.</p>
+      <p>Clear 'response.context' node and move all children into root. Move 'response.version' as 'release' into root. Node 'response.context' and 'response' is now empty – clear node with param clearEmptyNodes.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml',
           modify: {
             'response.context.*' : '.',
-            'response.version' : 'version'
+            'response.version' : 'release'
           },
           clearEmptyNodes : true
         });
@@ -273,15 +274,50 @@
     </div>
     <h2 id="time">Result</h2>
     <textarea id="result" style="height: 300px;"></textarea>
-   </div>
-   <div id="find">
+  </div>
+   
+  <div id="get">
+    <h2>Get JSON node with a string notation</h2>
+    <p>
+      The data.get() allows you to access a specified JSON node. A valid path is required, depending on the containing data structure (Arrays, Objects).
+    </p>
+    <div>
+      <p>Get node 'response.context.texts'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.get('response.context.texts');
+      </pre>
+    </div>
+    <div>
+      <p>Get second text node in 'response.context.texts'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.get('response.context.texts.text[0]');
+      </pre>
+    </div>
+    <div>
+      <p>Try to get invalid node 'response.foobar'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.get('response.foobar');
+      </pre>
+    </div>
+  </div>
+  
+  <div id="find">
     <h2>Search and find in JSON</h2>
     <p>
       The data.find() method is a powerful way to access nodes (optionally with conditions). There is a logic implemented which allows a string notation without knowledge of the different node types – 
-      this means that you can access all Arrays inside of some other Arrays. It is not necessary to use a Array index. The following return statements are not parsed.
+      this means that you can access all Arrays inside of some other Arrays. It is not necessary to use a Array index.
      </p>
     <div>
-      <p>Get all 'some' nodes in each 'response.context.misc.something.some'.</p>
+      <p>Find all 'some' nodes in each 'response.context.misc.something.some'.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml'
@@ -290,7 +326,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'something' nodes.</p>
+      <p>Find all 'something' nodes.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml'
@@ -299,7 +335,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'user' in 'response.context.users'.</p>
+      <p>Find all 'user' in 'response.context.users'.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml'
@@ -308,7 +344,7 @@
       </pre>
     </div>
     <div>
-      <p>Get names of all 'user'.</p>
+      <p>Find names of all 'user'.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml'
@@ -317,7 +353,16 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'user' which are admins.</p>
+      <p>Find name of the second 'user'.</p>
+      <pre>
+        var data = new XMLtoJSON({
+          url: 'xml/example.xml'
+        });
+        data = data.find('response.context.users.user[1].name.$');
+      </pre>
+    </div>
+    <div>
+      <p>Find all 'user' which are admins.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml'
@@ -326,7 +371,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'texts' with a key attribute starting with 'general'.</p>
+      <p>Find all 'texts' with a key attribute starting with 'general'.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml'
@@ -335,7 +380,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'texts' with a value of 'My company'.</p>
+      <p>Find all 'texts' with a value of 'My company'.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml'
@@ -344,7 +389,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'user' with a age of >25 years.</p>
+      <p>Find all 'user' with a age of >25 years.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml'
@@ -353,7 +398,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'user' with are 30 years old.</p>
+      <p>Find all 'user' with are 30 years old.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml',
@@ -363,7 +408,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'something' with a 'some.other.url' with value www.google.com.</p>
+      <p>Find all 'something' with a 'some.other.url' with value www.google.com.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml',
@@ -373,7 +418,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'software' which are not named 'Adobe Photoshop'.</p>
+      <p>Find all 'software' which are not named 'Adobe Photoshop'.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml',
@@ -383,7 +428,7 @@
       </pre>
     </div>
     <div>
-      <p>Get all 'users' if first 'user' has name 'Thomas'.</p>
+      <p>Find all 'users' if first 'user' has name 'Thomas'.</p>
       <pre>
         var data = new XMLtoJSON({
           url: 'xml/example.xml',
@@ -393,6 +438,7 @@
       </pre>
     </div>
   </div>
+  
   </body>
 
 </html>

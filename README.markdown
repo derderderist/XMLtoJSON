@@ -65,7 +65,8 @@ You can use a string notation (like 'rootnode.subnode') to do something with the
 
 	data.createNodes(<String> path) // create a full JSON tree by the given path
 	data.remove(<String> path) // remove the given path from the JSON object
-	data.find(<String> path, [<String> conditions]) // Method to get a specific part of the JSON object. See examples/index.html to get further information.
+	data.get(<String> path) // Method to get a specific part of the JSON object
+	data.find(<String> path, [<String> conditions]) // Method to find a specific part of the JSON object without required knowledge of the JSON data structure. See examples/index.html to get further information.
 
 
 ## Browser compatibility
