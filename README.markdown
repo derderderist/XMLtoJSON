@@ -1,4 +1,4 @@
-# XMLtoJSON - jQuery library to convert XML into JSON
+# XMLtoJSON - Javascript library to convert XML into JSON
 
 ## What is XMLtoJSON
 
